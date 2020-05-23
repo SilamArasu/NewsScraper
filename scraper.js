@@ -27,14 +27,14 @@ async function fetchNews(callback) {
         console.log("Done fetching");
         html = response.data;
         const $ = cheerio.load(html);
-
         $('.story4-sub-cont h3 a').each((i,elem) => {
-          data.push($(elem).text().replace(/\r?\n|\r/, ''));
+          data.push([$(elem).text().replace(/\r?\n|\r/, ''), elem.attribs.href]);
         });
         $('.story4-3x33-sub-cont h3 a').each((i,elem) => {
+          var href = elem.attribs.href;
           var temp = $(elem).text().replace(/\r?\n|\r/, '');
           temp = temp.replace(' | ','');
-          elec.push(temp);
+          elec.push([temp, href]);
         });
 
         if(data.length == 0)
@@ -78,13 +78,6 @@ fetchNews((n,e,f) => {
 });
 
 app.get('/', (req, res) => {
-  console.log('------- / -------');
-  console.log('The variables are');
-  console.log('news ', news);
-  console.log('imgsrc ', imgsrc);
-  console.log('Status', status);
-  console.log('------- / -------');
-
   res.render('index', {imgsrc: imgsrc, status: status });
 });
 
@@ -94,17 +87,9 @@ app.get('/favicon.ico', (req, res) => {
 });
 
 app.get('/:category', (req,res) => {
-  
   var category = req.params.category;
-  console.log('Category is ' + category);
-  console.log('Requested Url ', req.originalUrl);
-
-  var headlines = news[category];
-  console.log("Served :");
-  console.log(headlines);
-
-  res.render('news', {category: category, headlines: headlines});
-    
+  var categoricalNews = news[category];
+  res.render('news', {category: category, news: categoricalNews});
 });
 
-server.listen(3000);
+server.listen(3000, () => console.log('Server running at http://localhost:3000/'));

@@ -6,10 +6,9 @@ html
     div(class='content')
       h2= category
       ul
-          each item in headlines
+          each item in news
               li
-                a= item
-    div(class='statusbar')
-      a(href="/")
+                a(href=item[1], target="_blank")= item[0]
+    a(href="/")
+      div(class='statusbar')
           img(src="./img/home.svg", height="30px")
-
