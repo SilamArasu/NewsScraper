@@ -22,4 +22,12 @@ html
           a(href='Election') Election
     div(class='content')
       div(class='statusbar')
-        h3 Status: #{status}
+        h3 Status: 
+          span(id='message')= status
+    script(src="/socket.io/socket.io.js")
+    script.
+      var socket = io();
+
+      socket.on('status', function(data) {
+        document.getElementById("message").innerHTML = data;
+      });

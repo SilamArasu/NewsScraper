@@ -2,6 +2,8 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 var express = require('express');
 var app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 app.use(express.static('public'))
 
@@ -66,6 +68,7 @@ var news,status = 'Fetching';
 fetchNews((n,e) => {
   news = n;
   status = e;
+  io.emit('status', e);
 });
 
 app.get('/', (req, res) => {
@@ -82,6 +85,7 @@ app.get('/:category', (req,res) => {
   
   var category = req.params.category;
   console.log('Category is ' + category);
+  console.log('Requested Url ', req.originalUrl);
 
   var headlines = news[category];
   console.log("Served :");
@@ -91,4 +95,4 @@ app.get('/:category', (req,res) => {
     
 });
 
-var server=app.listen(3000,() => console.log('Listening for client connection'));
+server.listen(3000);
