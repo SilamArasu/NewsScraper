@@ -1,9 +1,11 @@
 html
   head
-    title= title
+    title= category
+    link(rel="stylesheet", type="text/css", href="./css/news.css")
   body
-    h2= category
     div
-        ul
-            each item in headlines
-                li= item
+      h2= category
+      ul
+          each item in headlines
+              li
+                a= item
