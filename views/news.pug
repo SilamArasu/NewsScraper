@@ -3,9 +3,13 @@ html
     title= category
     link(rel="stylesheet", type="text/css", href="./css/news.css")
   body
-    div
+    div(class='content')
       h2= category
       ul
           each item in headlines
               li
                 a= item
+    div(class='statusbar')
+      a(href="/")
+          img(src="./img/home.svg", height="30px")
+
