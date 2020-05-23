@@ -5,5 +5,9 @@ A NewsScraper for 'The Hindu' website in Node.js
 'npm install' to install modules
 
 ## Steps
-1. Run scaper.js in terminal - nodejs scraper.js
-2. Open index.html in a browser
+1. Run scraper.js in terminal - node scraper.js
+2. Open http://localhost:3000/ in your browser
+
+## Screenshot
+<img alt="screenshot" src="Screenshot.png" width="60%">
+
