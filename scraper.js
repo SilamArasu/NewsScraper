@@ -7,7 +7,7 @@ app.use(express.static('public'))
 
 app.set('view engine', 'pug')
 
-async function fetchNews() {
+async function fetchNews(callback) {
   const url = 'https://www.thehindu.com/';
   data = [];
   var_list = ['int','nat','spo','bus','sci','art']
@@ -35,7 +35,7 @@ async function fetchNews() {
           elec.push(temp);
         });
 
-        console.log('Data is', data);
+        // console.log('Data is', data);
         int = data.slice(0,3);
         nat = data.slice(3,6);
         spo = data.slice(6,10);
@@ -51,17 +51,24 @@ async function fetchNews() {
                 'Technology':tec,
                 'Election':elec
               };
-        return news;
+        callback(news, 'Fetched');
       })
     .catch(error => {
       console.log(error.message);
+      callback([], error.message);
     });
 }
 
-var news = fetchNews();
+var news,status;
+
+fetchNews((n,e) => {
+  news = n;
+  status = e;
+});
 
 app.get('/', (req, res) => {
-  res.render('index');
+  console.log('Status', status);
+  res.render('index', {status: status ? status:'Fetching'});
 });
 
 app.get('/favicon.ico', (req, res) => {

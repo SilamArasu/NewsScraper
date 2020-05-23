@@ -4,7 +4,7 @@ html
       |News Scraper
     link(rel="stylesheet", type="text/css", href="./css/index.css")
   body
-    div(id='content')
+    div(class='content')
       ul
         li 
           a(href='International') International
@@ -20,3 +20,6 @@ html
           a(href='Technology') Technology
         li 
           a(href='Election') Election
+    div(class='content')
+      div(class='statusbar')
+        h3 Status: #{status}
