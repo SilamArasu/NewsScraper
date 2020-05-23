@@ -35,6 +35,8 @@ async function fetchNews(callback) {
           elec.push(temp);
         });
 
+        if(data.length == 0)
+          throw new Error('Cannot be fetched');
         // console.log('Data is', data);
         int = data.slice(0,3);
         nat = data.slice(3,6);
@@ -59,7 +61,7 @@ async function fetchNews(callback) {
     });
 }
 
-var news,status;
+var news,status = 'Fetching';
 
 fetchNews((n,e) => {
   news = n;
@@ -68,7 +70,7 @@ fetchNews((n,e) => {
 
 app.get('/', (req, res) => {
   console.log('Status', status);
-  res.render('index', {status: status ? status:'Fetching'});
+  res.render('index', {status: status });
 });
 
 app.get('/favicon.ico', (req, res) => {
