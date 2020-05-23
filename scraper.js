@@ -55,25 +55,37 @@ async function fetchNews(callback) {
                 'Technology':tec,
                 'Election':elec
               };
-        callback(news, 'Fetched');
+        callback(news, 'Fetched', true);
       })
     .catch(error => {
       console.log(error.message);
-      callback([], error.message);
+      callback([], error.message, false);
     });
 }
 
+var imgsrc = '../img/spinner.gif';
 var news,status = 'Fetching';
 
-fetchNews((n,e) => {
+fetchNews((n,e,f) => {
   news = n;
   status = e;
-  io.emit('status', e);
+  if(f)
+    imgsrc = './img/success.png';
+  else
+    imgsrc = './img/fail.png';
+
+  io.emit('status', [imgsrc, e]);
 });
 
 app.get('/', (req, res) => {
+  console.log('------- / -------');
+  console.log('The variables are');
+  console.log('news ', news);
+  console.log('imgsrc ', imgsrc);
   console.log('Status', status);
-  res.render('index', {status: status });
+  console.log('------- / -------');
+
+  res.render('index', {imgsrc: imgsrc, status: status });
 });
 
 app.get('/favicon.ico', (req, res) => {
